@@ -1,0 +1,12 @@
+.slidev-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.slidev-layout ul {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
