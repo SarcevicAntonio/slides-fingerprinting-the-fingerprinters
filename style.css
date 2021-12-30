@@ -1,3 +1,12 @@
+:not(pre) > code:before,
+:not(pre) > code:after {
+  content: "";
+}
+
+:not(pre) > code {
+  padding: 0.125rem;
+}
+
 .slidev-layout {
   display: flex;
   flex-direction: column;
@@ -9,4 +18,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.slidev-layout ul li ul {
+  display: revert;
 }
