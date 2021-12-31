@@ -10,6 +10,8 @@ title: "Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verh
 
 ## Browser-Fingerprinting-Verhalten lernen und erkennen
 
+Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
+
 <a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="paper-src">Src: Fingerprinting the Fingerprinters: Learning to Detect Browser Fingerprinting Behaviors</a>
 
 <!-- prettier-ignore-start -->
