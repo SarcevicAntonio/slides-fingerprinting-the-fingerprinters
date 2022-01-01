@@ -10,9 +10,9 @@ title: "Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verh
 
 ## Browser-Fingerprinting-Verhalten lernen und erkennen
 
-Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
+Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
 
-<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="paper-src">Src: Fingerprinting the Fingerprinters: Learning to Detect Browser Fingerprinting Behaviors</a>
+<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learningto detect browser fingerprinting behaviors” , 2020.</a>
 
 <!-- prettier-ignore-start -->
 <!--  -->
@@ -28,7 +28,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-  - Vorarbeit: Heuristik
+  - Vorarbeit: Heuristik & OpenWPM
 
   - Design
 
@@ -81,9 +81,9 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 ## Ursprünge vom Fingerprinting
 
-- [Jonathan R. Mayer](https://jonathanmayer.org/publications/thesis09.pdf) zeigt 2009 das "quirkiness" (Systemkonfiguration) Nutzer identifizieren kann
+- [Mayer](https://jonathanmayer.org/publications/thesis09.pdf) zeigt 2009 das "quirkiness" (Systemkonfiguration) Nutzer identifizieren kann
 
-- 2010 entwickelt [Peter Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) die Seite [Panopticlick](http://panopticlick.eff.org/) um Browser-Fingerprinting durchzuführen zu analysieren
+- 2010 entwickelt [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) die Seite [Panopticlick](http://panopticlick.eff.org/) um Browser-Fingerprinting durchzuführen zu analysieren
 
 - Ausnutzung verschiedener APIs für Fingerprinting im freien Web in verschiedenen Studien gefunden [[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[38]](https://www.esat.kuleuven.be/cosic/publications/article-2334.pdf), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf),
 
@@ -166,7 +166,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 ## Gegenmaßnahmen
 
-- randomization: Randomisiert Rückgabewerte von APIs mit Rauschen (Canvas Defender)
+- randomization: Rückgabewerte von APIs mit Rauschen randomisieren (Canvas Defender)
 
   - kann Funktionen der Seite verändern
 
@@ -178,7 +178,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - können Seite limitieren oder komplett brechen
 
-- heuristisch: vordefinierte Patterns (Privacy Badger, Disconnect)
+- heuristisch: vordefinierte Patterns erkennen und Blockieren (Privacy Badger, Disconnect)
 
   - Heuristik muss eng genug sein, um wenige Seiten falsch zu blocken
 
@@ -223,3 +223,84 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
  -->
 
 ---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Vorarbeit: Heuristik
+
+Beispiel: CanvasRenderingContext2D Font Fingerprinting
+
+```js
+  // canvas-font-fingerprinting.js
+  fonts = ["monospace", ..., "sans-serif"]; // Einen Haufen valider "Font" Werte
+  canvasElement = document.createElement("canvas");
+  canvasElement.width = "100";
+  canvasElement.height = "100";
+  canvasContext = canvasElement.getContext("2d");
+  fpDict = {};
+  for (i = 0; i < fonts.length; i++) {
+    canvasContext.font = "16px " + fonts[i];
+    fpDict[fonts[i]] = canvasContext.measureText("example").width;
+  }
+```
+
+<!--
+- Ein Beispiel für Vielzahl von Fingerprinting Möglichkeiten
+- aber anschaulich und wird auch im Paper später benutzt
+ -->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Vorarbeit: Heuristik
+
+- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von Fingerprinting-Scripts
+
+- Kriterien für Erkennung von Canvas Font Fingerprinting:
+
+  - Script setzt `CanvasRenderingContext2D.font` mindestens 50 mal auf gültige Werte
+  - Script ruft `CanvasRenderingContext2D.measureText(...)` mindestens 50 mal mit dem selben String auf
+
+- Nach manueller Untersuchung der Erkannten Scripts wurden bei 1 Millionen Seiten kein False Positive gefunden.
+
+<!-- prettier-ignore-start -->
+<!--  -->
+---
+layout: two-cols
+---
+<!-- prettier-ignore-end -->
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Vorarbeit: OpenWPM
+
+- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Framework zur automatisierten Messung von Web Privacy
+
+- Geeignet zur Messung von stateful und stateless Tracking
+
+- Entwickelt in Python
+
+- 3 Hauptmodule
+
+  - Browser Managers
+  - Task Manager
+  - Data Aggregator
+
+- Wurde bereits in vielen Studien genutzt
+
+::right::
+
+![OpenWPM Aufbau](OpenWPM.png)
+
+<!--
+- Browser Managers als Abstraktionsebene für einzelne Browserinstanzen
+  - kommunizieren mittels Selenium mit echtem Firefox, wichtig damit Fingerprinting wie gewollt funktioniert
+- Task Manager, user-facing um Kommandos an Browser zu senden
+   - Nutzer interagieren mittels Domänen spezifische Sprache um z.B. zu Crawlen oder Browser Instanzen zu steuern
+- Data Aggregator als Abstraktionsebene für Browserinstrumentation bzw. zur Datenextraktion
+  - Disk Access für Daten zu Cookies
+  - HTTP Data
+  - JavaScript Access: custom getter und setter um zugriff auf APIs aufzunehmen
+  - alles wird in SQLite Datenbank geschrieben
+ -->

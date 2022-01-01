@@ -1,20 +1,22 @@
+/** fix pre/code ticks */
 :not(pre) > code:before,
 :not(pre) > code:after {
   content: "";
 }
-
 :not(pre) > code {
   padding: 0.125rem;
 }
 
-.slidev-layout {
+/** layout (flex everything) */
+.slidev-layout,
+.col-right,
+.col-left {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-  border-bottom: 0.25em solid hsl(233, 100%, 31%);
+  gap: 1em;
 }
 
-.slidev-layout p {
+.slidev-layout p, .slidev-layout h1 {
   margin: 0;
 }
 
@@ -29,10 +31,25 @@
   display: revert;
 }
 
-.page-numbers, .paper-src {
+/** center content on right column (for images) */
+.col-right {
+  margin: auto;
+}
+
+/** footer layout */
+
+.footer,
+.page-numbers {
   position: absolute;
   opacity: 0.75;
   font-size: 0.75rem;
+  bottom: 0.25rem;
+}
+
+.footer {
+  left: 0.5rem;
+}
+
+.page-numbers {
   right: 0.5rem;
-  bottom: 0.5rem;
 }
