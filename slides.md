@@ -28,7 +28,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-  - Vorarbeit: Heuristik & OpenWPM
+  - Vorarbeit
 
   - Design
 
@@ -304,3 +304,9 @@ layout: two-cols
   - JavaScript Access: custom getter und setter um zugriff auf APIs aufzunehmen
   - alles wird in SQLite Datenbank geschrieben
  -->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung von Fingerabdruck-Skripten
