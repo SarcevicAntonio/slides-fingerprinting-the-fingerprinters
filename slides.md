@@ -212,9 +212,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - statische Codeanalyse unzureichend bei Codeobfuscation und Enumeration
 
-  - dynamische Analyse unzureichend bei Skripten die über Nutzerinput oder Browser-Events getriggert werden
-
-  - FP-INSPECTOR benutzt nun Kombination beider Ansätze
+  - dynamische Analyse unzureichend bei Scripts die über Nutzerinput oder Browser-Events getriggert werden
 
 <!--
 - stateless und stateful tracking sehr unterschiedlich, deshalb Lösung die beides zusammenpackt unzureichend
@@ -231,17 +229,17 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 Beispiel: CanvasRenderingContext2D Font Fingerprinting
 
 ```js
-  // canvas-font-fingerprinting.js
-  fonts = ["monospace", ..., "sans-serif"]; // Einen Haufen valider "Font" Werte
-  canvasElement = document.createElement("canvas");
-  canvasElement.width = "100";
-  canvasElement.height = "100";
-  canvasContext = canvasElement.getContext("2d");
-  fpDict = {};
-  for (i = 0; i < fonts.length; i++) {
-    canvasContext.font = "16px " + fonts[i];
-    fpDict[fonts[i]] = canvasContext.measureText("example").width;
-  }
+// canvas-font-fingerprinting.js
+fonts = ["monospace", ..., "sans-serif"]; // Einen Haufen valider "Font" Werte
+canvasElement = document.createElement("canvas");
+canvasElement.width = "100";
+canvasElement.height = "100";
+canvasContext = canvasElement.getContext("2d");
+fpDict = {};
+for (i = 0; i < fonts.length; i++) {
+  canvasContext.font = "16px " + fonts[i];
+  fpDict[fonts[i]] = canvasContext.measureText("example").width;
+}
 ```
 
 <!--
@@ -291,7 +289,8 @@ layout: two-cols
 
 ::right::
 
-![OpenWPM Aufbau](OpenWPM.png)
+![OpenWPM Aufbau: "Figure 1: High-level overview of OpenWPM The task manager monitors browser managers, which convert high-level commands into automated browser actions. The data aggregator receives and pre-processes data from instrumentation."](/OpenWPM.png)
+[Online Tracking: A 1-million-site Measurement and Analysis](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
 
 <!--
 - Browser Managers als Abstraktionsebene für einzelne Browserinstanzen
@@ -309,4 +308,125 @@ layout: two-cols
 
 # <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-## Design: Erkennung von Fingerabdruck-Skripten
+- Machine Learning Ansatz
+- statische + dynamische JavaScript Analyse
+- Maßnahmen gegen Browser-Fingerprinting
+
+## Design
+
+- Erkennungskomponente
+
+  - extrahieren von syntaktischen und semantischen Features
+
+  - trainieren eines Classifiers um Fingerprinting-Skripte zu erkennen
+
+- Mitigationskomponente
+
+  - Reihe von Einschränkungen für erkannte Skripte ("layered approach")
+  - Wirkt gegen passives und/oder aktives Fingerprinting
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Architekturdiagramm
+
+![FP-Inspector Architektur: "Fig. 1: FP-INSPECTOR: (1) We crawl the web with an extended version of OpenWPM that extracts JavaScript source files and their execution traces. (2) We extract Abstract Syntax Trees (ASTs) and execution traces for all scripts. (3) We use those representations to extract features and train a machine learning model to detect fingerprinting scripts. (4) We use a layered approach to counter fingerprinting scripts."](/FPInspectorArchitecture.png)
+
+<!--
+1. Crawling mit OpenWPM
+2. Vorarbeit für Erkennung (Daten extrahieren und glatt ziehen)
+3. Erkennungskomponente: Feature Extraktion und training
+4. Mitigationskomponente "layered approach"
+ -->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung von Fingerabdruck-Scripts - Neuheiten
+
+- Automatisches lernen von Heuristiken
+
+  - low-level Heuristiken zum Sammeln von syntaktischen und semantischen Eigenschaften
+
+  - Trainieren mit "ground truth" aus vorheriger Forschung
+
+  - Classifier kann neue Fingerprinting-Scripte und -Methoden erkennen
+
+- Kombination aus statischer und dynamischer Analyse
+
+  - Statische Analyse: Erkennung von Scripts die beim einfachen Crawlen nicht anspringen
+
+  - Dynamische Analyse: Erkennung von Scripts mit Obfuscation, Minimierung, und Enumeration
+
+  - Trainieren zwei separater Modelle, Kombination der Ergebnisse
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung von Fingerabdruck-Scripts - Script Monitoring
+
+- Crawlen mit OpenWPM: Sammeln von rohen Daten und execution traces für statische und dynamische Analyse
+- Erweitern von OpenWPM
+  - Speichern von HTML Dokumenten (zum sammeln von inline JavaScript)
+  - Erweiterung der dynamisch aufgenommenen JavaScript API aufrufe
+
+<!--
+
+- OpenWPM sammelt bereits HTTP responses von extern geladenen Skripten -> Erweiterung für inline scripts
+- OpenWPM zeichnet nur subset der APIs auf; alle APIs aufzeichnen wäre nicht performant; Erweiterung um populäre fingerprinting APIs aus offenen Skripten (fingerprintjs2)
+ -->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung von Fingerabdruck-Scripts - Statische Analyse
+
+- Abstract Syntax Tree Repräsentation
+
+- Script Unpacking
+
+- statische Feature Extraktion
+
+<div style="position:absolute;right:1em;top:33%;height:50%;display:flex;justify-content:end">
+  <img src="/script-unpacking.png">
+  <img src="/script-ast.png">
+</div>
+
+<!--
+- AST um Coding Style und Syntax, und damit auch Whitespace und Kommentare, zu ignorieren
+  - AST als Baum von Syntax primitiven und deren Beziehungen
+  - Knoten für Keywords (for, eval), Identifiers (Funktionen und Variablennamen) und Literals (Fixwerte wie Strings)
+
+- Unpacking: Scripts die mit eval gewrapped sind müssen entpackt werden um einen Nützlichen AST zu generieren
+  - Wird mithilfe eines instrumentieren Browsers gemacht:
+    - Skripte werden leeres Dokument eingebettet und dann die interpretation der JavaScript engine extrahiert
+  - selbes verfahren fürs extrahieren von inline HTML Skripte
+
+- feature extraction: einteilen des AST in parent und child nodes
+  - parents als context (for loops, try statements, if conditions)
+  - child als Funktion innerhalb des Context (createElement, toDataUrl, measureText)
+  - parent:child paare mit Binärem Werte als Features (paar vorhanden oder nicht vorhanden)
+  - z.B. `ForStatement:var` : script hat loop oder `MemberExpression:measureText` script greift auf measureText Methode zu
+  - unsupervisided und supervised feature selection Methoden um over-fitting zu vermeiden (limitieren der features)
+
+ -->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung von Fingerabdruck-Scripts - Dynamische Analyse
+
+- Statische Methode unzureichend für Skripte mit Obfuscation
+
+
+<div style="position:absolute;right:1em;top:33%;height:50%;display:flex;justify-content:end">
+  <img src="/script-obf.png">
+</div>
+
+
+<!--  -->
