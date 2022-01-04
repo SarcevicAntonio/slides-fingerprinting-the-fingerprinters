@@ -26,7 +26,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - <ph-fingerprint/> Browser-Fingerprinting
 
-- <ph-magnifying-glass-duotone/> FP-INSPECTOR
+- <ph-magnifying-glass/> FP-INSPECTOR
 
   - Vorarbeit
 
@@ -36,7 +36,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - Limitationen
 
-- <ph-list-numbers/> Fingerprinting der Top-100k
+- <ph-hand-eye/> Fingerprinting der Top-100k
 
 - <ph-lightbulb/> Fazit
 
@@ -44,7 +44,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 # <ph-fingerprint/> Browser-Fingerprinting
 
-## Online Tracking durch Fingerprinting
+## Online Tracking durch Fingerprinting (FP)
 
 - Form von stateless tracking
 
@@ -143,15 +143,15 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - 3 fingerprinting Anbieter
 
-  - 40 Fingerprinting-Seiten aus Alexa Top-10k **(0.4%)**
+  - 40 FP-Seiten aus Alexa Top-10k **(0.4%)**
 
 - 2013 Paper ["FPDetective: Dusting the Web for Fingerprinters"](https://www.esat.kuleuven.be/cosic/publications/article-2334.pdf)
 
-  - 404 Fingerprinting-Seiten aus Alexa Top-1 Millionen **(0.04%)**
+  - 404 FP-Seiten aus Alexa Top-1 Millionen **(0.04%)**
 
 - Weitere Studien [[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf),
 
-  [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf) finden immer mehr Fingerprinting-Seiten über die Jahre.
+  [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf) finden immer mehr FP-Seiten über die Jahre.
 
 - 2019 schreibt [Washington Post](https://www.washingtonpost.com/technology/2019/10/31/think-youre-anonymous-online-third-popular-websites-are-fingerprinting-you/): "At least a third of the 500 sites Americans visit most often use hidden code to run an identity check on your computer or phone." **(>30%)**
 
@@ -180,9 +180,9 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - heuristisch: vordefinierte Patterns erkennen und Blockieren (Privacy Badger, Disconnect)
 
-  - Heuristik muss eng genug sein, um wenige Seiten falsch zu blocken
+  - Heuristik muss spezifisch genug sein, um wenige Seiten falsch zu blocken
 
-  - Enge Heuristik können auch Fingerprinting-Scripts übersehen
+  - sehr spezifische Heuristik können aber FP-Scripts übersehen
 
   - Heuristik muss ständig aktuell gehalten werden
 
@@ -222,7 +222,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Vorarbeit: Heuristik
 
@@ -249,11 +249,11 @@ for (i = 0; i < fonts.length; i++) {
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Vorarbeit: Heuristik
 
-- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von Fingerprinting-Scripts
+- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von FP-Scripts
 
 - Kriterien für Erkennung von Canvas Font Fingerprinting:
 
@@ -269,7 +269,7 @@ layout: two-cols
 ---
 <!-- prettier-ignore-end -->
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Vorarbeit: OpenWPM
 
@@ -306,7 +306,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 - Machine Learning Ansatz
 - statische + dynamische JavaScript Analyse
@@ -318,7 +318,7 @@ layout: two-cols
 
   - extrahieren von syntaktischen und semantischen Features
 
-  - trainieren von Klassifizierer um Fingerprinting-Scripts zu erkennen
+  - trainieren von Klassifizierer um FP-Scripts zu erkennen
 
 - Mitigationskomponente
 
@@ -328,7 +328,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Architekturdiagramm
 
@@ -343,7 +343,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Erkennung - Neuheiten
 
@@ -353,7 +353,7 @@ layout: two-cols
 
   - Trainieren mit "ground truth" aus vorheriger Forschung
 
-  - Klassifizierer kann neue Fingerprinting-Scripte und -Methoden erkennen
+  - Klassifizierer kann neue FP-Scripte und -Methoden erkennen
 
 - Kombination aus statischer und dynamischer Analyse
 
@@ -365,7 +365,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Erkennung - Script Monitoring
 
@@ -385,7 +385,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Erkennung - Statische Analyse
 
@@ -436,7 +436,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Erkennung - Dynamische Analyse
 
@@ -468,7 +468,7 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Erkennung - Klassifizieren
 
@@ -482,7 +482,7 @@ layout: two-cols
   - Feature, der Datenset möglichst effektiv teilt
   - heißt am ende teilen in nicht fingerprinting und fingerprinting kind knoten
 
-- getrennte Bäume: -> Ergebnis wird ver XORt
+- getrennte Bäume: -> Ergebnis wird verORt / Union
  -->
 
 <!-- prettier-ignore-start -->
@@ -492,7 +492,7 @@ layout: two-cols
 ---
 <!-- prettier-ignore-end -->
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
 ## Design: Mitigation
 
@@ -532,17 +532,21 @@ layout: two-cols
 
 ---
 
-# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+# <ph-magnifying-glass/> FP-INSPECTOR
 
-## Evaluation: Genauigkeit
+## Evaluation: Genauigkeit der Erkennung
 
-- Zur Evaluation werden gelabelte Beispiele von Non-Fingerprinting-Scripts und Fingerprinting-Scripts (ground truth) benötigt
+- Zur Evaluation werden gelabelte Beispiele von Non-FP-Scripts und FP-Scripts (ground truth) benötigt
 
-- Labeln von (Non-)Fingerprinting-Scripts mit angepassten Heuristiken aus [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
+- Labeln von (Non-)FP-Scripts mit angepassten Heuristiken aus [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
 
 - Data Collection mit OpenWPM
-  - Alexa Top-10k + 10k gesampled aus Top 10k-100k
-  - 17.629 Seiten mit 153.354 verschiedenen Scripts
+
+  - Alexa Top-10k + 10k (gesampled aus Top 10k-100k) -> 20k Seiten gecrawed
+
+  - 17.629 Seiten mit 153.354 verschiedenen Scripts gefunden
+
+- Reminder: Heuristiken nicht perfekt
 
 <!--
 
@@ -564,4 +568,128 @@ layout: two-cols
 - Data Collection: Mischung aus Alexa top-10k und 10k random Seiten aus 10k-100k
   - also sehr populäre Seiten und einige Seiten weiter unten in der liste
   - 120s Timeout zum laden der Seiten
+
+
+- Heuristiken: müssen spezifisch genug sein, können aber wenn zu spezifisch FP-Scripts übersehen; außerdem müssen die aktuell gehalten werden
+
+-->
+
+<!-- prettier-ignore-start -->
+<!--  -->
+---
+layout: two-cols
+---
+<!-- prettier-ignore-end -->
+
+# <ph-magnifying-glass/> FP-INSPECTOR
+
+## Evaluation: Genauigkeit der Erkennung
+
+- Um "heuristische" Daten zu verbessern: _Enhancing Ground Truth_
+
+  - iteratives Re-Training und manuellem korrigieren der Datengrundlage
+  - bei Mismatch: automatisierten Report
+  - Manuelle Auswertung nach "heuristic-like behaviors"
+
+::right::
+
+!["TABLE I: Enhancing ground truth with multiple iterations of retaining. Itr. represents the iteration number of training with static (S) and dynamic (D) models. New Detections (FP) represent the additional fingerprinting scripts detected by the classifier and New Detections (NON-FP) represent the new non-fingerprinting scripts detected by the classifier as compared to heuristics. Whereas Correct Detections (FP) represent the manually verified correct determination of the classifier for fingerprinting scripts and Correct Detections (NON-FP) represent the manually verified correct determination of the classifier for non-fingerprinting scripts."](/enhance.png)
+
+<!--
+
+- Enhancing Ground Truth:
+  - Automatisierter Report bei "falscher" Zuordnung
+    - JS API und Property Calls mit Argumenten und Rückgabewerten
+    - Snippets vom Script rundum calls zu den interessanten APIS (Canvas, WebRTC, etc.)
+    - Ähnlichkeitsscore zu Fingerprintjs2
+    - komplettes formatiertes Script
+  - Manuelle Auswertung von mehreren anhand der Kriterien:
+    1. Funktionalität und Struktur ist ähnlich zu bekannten FP-Scripts
+    2. Script verwendet weiteren FP-Code
+    3. Potentieller Fingerprinting Teil interagiert nicht mit funktionellem Teil
+
+
+  - Auswertung war "straightforward", viele Scripts waren ähnlich zu bekannten FP Scripts und konnten in Grunddaten als FP gelabled werden´
+    - Falls Script FP funktionalität nutzt gilt gesammte Script als Fingerprinting, sonst NON-FP
+    - wie erwartet sind FP-Scripte durch heuristiken durchgerutscht: hauptgründe
+      - Script wurde nicht ausgeführt, weil event nicht ausgeführt etc
+      - Fingerprinting funktioniert an heursitiken vorbei da zu eng definiert
+    - vereinzelt stellen wo Heuristik besser funktioniert als Clasifier, aber selten
+
+_Tabelle_
+
+- mehrheitlich korrekt klassifiziert
+- kann auch neue skripte erkennen wenn ground truth verbessert
+
+-->
+
+---
+
+# <ph-magnifying-glass/> FP-INSPECTOR
+
+## Evaluation: Genauigkeit der Erkennung
+
+![Genauigkeitstabelle: "TABLE II: FP-INSPECTOR’s classification results in terms of recall, precision, and accuracy in detecting fingerprinting scripts. “Heuristics (Scripts/Websites)” represents the number of scripts and websites detected by heuristics and “Classifiers (Scripts/Websites)” represents the number of scripts and websites detected by the classifiers. FPR represents false positive rate and FNR represent false negative rate."](/accuracy.png)
+
+- Kombination aus statischer und dynamischer Analyse Kombination durch "OR" Verknüpfung der zwei Classifier
+  - 94,46% der Scripts die nur durch statische Analyse erkannt wurden waren ruhend
+  - 92.30% der Scripts die nur durch dynamische Analyse erkannt wurden waren obfuscated/stark minified
+- Classifier erkennt 26% mehr Scripts als pure Heuristiken
+
+---
+
+# <ph-magnifying-glass/> FP-INSPECTOR
+
+## Evaluation: Breakage
+
+- 4 Modi zur Mitigation (pauschale und gezielte API Restriction, Request Blocking und Hybrid) per Browsererweiterung konfigurierbar
+
+- Manuelles Testen von 50 zufälligen FP-Seiten und 11 Non-FP-Seiten die unter derzeitigen Anti-FP Methoden von Firefox brechen
+
+  - Ausschalten der derzeitigen Anti-FP Methoden von Firefox
+  - Jeweils Testen der Seite im vanilla Firefox, dann mit Erweiterung in jedem Modi
+  - Einteilen in jeweils "Major", "Minor" oder "None" Breakage
+
+<img
+  src="/breakage.png"
+  alt='Breakage: "TABLE III: Breakdown of breakage caused by different countermeasures. The results present the average assessment of two reviewers."'
+  style="height:60%;margin:auto"
+/>
+
+<!--
+
+Testen der Seiten:
+- Jeweils ein paar Minuten benutzen, Rum Scrollen, offensichtliche Funktionalität auschecken
+
+- Major: Hauptfunktionalität gestört (Login, Register, Suche, Menü, Navigation)
+- Minor Nebenfunktionalität gestört (Kommentare, Bewertung, Widget, Social Media Embeds)
+- None: Haupt und Nebenfunktionalität nicht gestört, fehlende Werbung keine breakage
+
+- breakage wurde von zwei reviewers untersucht um bias zu verhindern
+
+- pauschale API Restriction bricht am häufigsten, und häufiger als Request blocking, weil auch nicht FP-Scripte betroffen sind
+- gezielte API Restriction bricht am wenigsten
+- Hybrid bricht weniger als Request Blocking, aber öfter als API restriction
+  - hybrid bietet aber auch Schutz gegen passives FP
+  - nur kein Schutz gegen first-party passive FP, aber fast unmöglich zu Blockieren ohne Breakage
+
+- Häufigster fall für breakage: Seiten-Funktionalitäts-Code wartet explizit auf Fingerprinting Code, forciert diesen also
+
+ -->
+
+---
+
+# <ph-hand-eye/> Fingerprinting der Top-100k Seiten
+
+## Mehr als ein Viertel der Top-Websites nehmen jetzt Fingerabdrücke von Nutzern
+
+!["TABLE IV: Distribution of Alexa top-100K websites that deploy fingerprinting. Results are sliced by site rank."](/wild-fprate.png)
+
+<!--
+
+- Mittels Erkennungskomponenten von FP-Inspect wurden top-100k Alexa seiten gecrawled
+
+- Mehr als ein Viertel der Top-Websites nehmen jetzt Fingerabdrücke von Nutzern
+
+
  -->
