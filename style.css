@@ -16,7 +16,8 @@
   gap: 1em;
 }
 
-.slidev-layout p, .slidev-layout h1 {
+.slidev-layout p,
+.slidev-layout h1 {
   margin: 0;
 }
 
@@ -52,4 +53,12 @@
 
 .page-numbers {
   right: 0.5rem;
+}
+
+.hover-right {
+  position: absolute;
+  right: 1em;
+  top: 33%;
+  display: flex;
+  justify-content: end;
 }

@@ -164,7 +164,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 # <ph-fingerprint/> Browser-Fingerprinting
 
-## Gegenmaßnahmen
+## Mitigation
 
 - randomization: Rückgabewerte von APIs mit Rauschen randomisieren (Canvas Defender)
 
@@ -318,11 +318,12 @@ layout: two-cols
 
   - extrahieren von syntaktischen und semantischen Features
 
-  - trainieren eines Classifiers um Fingerprinting-Skripte zu erkennen
+  - trainieren von Klassifizierer um Fingerprinting-Scripts zu erkennen
 
 - Mitigationskomponente
 
-  - Reihe von Einschränkungen für erkannte Skripte ("layered approach")
+  - Reihe von Einschränkungen für erkannte Scripts ("layered approach")
+
   - Wirkt gegen passives und/oder aktives Fingerprinting
 
 ---
@@ -344,7 +345,7 @@ layout: two-cols
 
 # <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-## Design: Erkennung von Fingerabdruck-Scripts - Neuheiten
+## Design: Erkennung - Neuheiten
 
 - Automatisches lernen von Heuristiken
 
@@ -352,7 +353,7 @@ layout: two-cols
 
   - Trainieren mit "ground truth" aus vorheriger Forschung
 
-  - Classifier kann neue Fingerprinting-Scripte und -Methoden erkennen
+  - Klassifizierer kann neue Fingerprinting-Scripte und -Methoden erkennen
 
 - Kombination aus statischer und dynamischer Analyse
 
@@ -366,11 +367,14 @@ layout: two-cols
 
 # <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-## Design: Erkennung von Fingerabdruck-Scripts - Script Monitoring
+## Design: Erkennung - Script Monitoring
 
 - Crawlen mit OpenWPM: Sammeln von rohen Daten und execution traces für statische und dynamische Analyse
+
 - Erweitern von OpenWPM
+
   - Speichern von HTML Dokumenten (zum sammeln von inline JavaScript)
+
   - Erweiterung der dynamisch aufgenommenen JavaScript API aufrufe
 
 <!--
@@ -383,7 +387,7 @@ layout: two-cols
 
 # <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-## Design: Erkennung von Fingerabdruck-Scripts - Statische Analyse
+## Design: Erkennung - Statische Analyse
 
 - Abstract Syntax Tree Repräsentation
 
@@ -391,9 +395,22 @@ layout: two-cols
 
 - statische Feature Extraktion
 
-<div style="position:absolute;right:1em;top:33%;height:50%;display:flex;justify-content:end">
-  <img src="/script-unpacking.png">
-  <img src="/script-ast.png">
+- Überwachtes Lernen
+
+<div v-click-hide class="hover-right" style="height: 60%">
+  <img
+    src="/script-unpacking.png"
+    style="height: 80%"
+    alt="Script Unpacking: 'Script 1: A canvas font fingerprinting script packed with eval. Script 2: An unpacked version of the script in Script 1.'"
+  />
+  <img
+    src="/script-ast.png"
+    alt="Script ASTs: 'Fig. 2: A truncated AST representation of Scripts 1 and 2. The edges represent the syntactic relationship between nodes. Dotted lines indicate an indirect connection through truncated nodes.'"
+  />
+</div>
+
+<div v-click class="hover-right" style="height: 50%">
+  <img src="/static-features.png" alt="Statische Features: 'TABLE VII: A sample of features extracted from AST in Figure 2b.'"/>
 </div>
 
 <!--
@@ -411,22 +428,140 @@ layout: two-cols
   - child als Funktion innerhalb des Context (createElement, toDataUrl, measureText)
   - parent:child paare mit Binärem Werte als Features (paar vorhanden oder nicht vorhanden)
   - z.B. `ForStatement:var` : script hat loop oder `MemberExpression:measureText` script greift auf measureText Methode zu
-  - unsupervisided und supervised feature selection Methoden um over-fitting zu vermeiden (limitieren der features)
 
+- unüberwachte und Überwachte feature selektions Methoden um over-fitting zu vermeiden (limitieren der features)
+
+- top 1k features zum überwachten lernen genutzt
+-->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung - Dynamische Analyse
+
+- dynamische Feature Extraktion
+
+  - Verwendung von JS APIs
+  - abgeleitete Werte von JS APIs
+
+- Überwachtes Lernen
+
+<div class="hover-right" style="height: 50%">
+  <img src="/dynamic-features.png" alt="Dynamische Features: 'TABLE VIII: A sample of the dynamic features extracted from the execution trace of Script 3a.'"/>
+</div>
+
+<!--
+- runtime execution traces mit OpenWPM aufgenommen: jetzt daraus features
+- Binäre werte für die Verwendung von JS APIs (?)
+- abgeleitete Werte um Klassifizierer zu generalisieren
+  - bsp: statt spezifischen String Literal die Länge des Strings mit ins feature
+  - oder: Fläche eines Canvas Elements messen statt Höhe und Breite mit ins feature
+
+- unüberwachte und Überwachte feature selektions Methoden um over-fitting zu vermeiden (limitieren der features)
+  - filtern nach 0.01 Varianztheshold
+  - Sortieren nach information gain
+  - dann top 1k features
+
+- top 1k features zum überwachten lernen genutzt
+-->
+
+---
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Erkennung - Klassifizieren
+
+- Entscheidungsbaum als Klassifizierer
+  - An jedem Knoten wird ein Feature zum effektiven aufteilen gewählt
+  - Getrennte Bäume für statische und dynamische Analyse
+
+<!--
+- wird zum aufbauen mit gelabelten Daten und features beladen
+  - im ersten Knoten hängen alle Daten
+  - Feature, der Datenset möglichst effektiv teilt
+  - heißt am ende teilen in nicht fingerprinting und fingerprinting kind knoten
+
+- getrennte Bäume: -> Ergebnis wird ver XORt
+ -->
+
+<!-- prettier-ignore-start -->
+<!--  -->
+---
+layout: two-cols
+---
+<!-- prettier-ignore-end -->
+
+# <ph-magnifying-glass-duotone/> FP-INSPECTOR
+
+## Design: Mitigation
+
+- Gegenmaßnahmen:
+
+  - Content Blocking
+  - API Restrictions
+
+- Website Breakage wichtig!
+
+::right::
+
+<v-click>
+
+- FP-Inspector Mitigation-Modi:
+  1. pauschale API Restriction
+  2. gezielte API Restriction
+  3. Request Blocking
+  4. Hybrid
+
+</v-click>
+
+<!--
+- Gegenmaßnahmen grob Einteilbar in:
+  - Content Blocking: Requests von Domains oder URLs die Fingerprinting Scripts liefern blockieren (Fingerprinting Domains)
+  - API Restriction: API Zugang limitieren oder verändern
+
+- Wichtig zu beachten ist Website Breakage (wie oft Webseiten brechen)
+  - API Restriction funktioniert gut gegen Fingerprinting aber sobald APIs für Funktionalität genutzt werden wird's haarig
+  - Nutzer haben kein Interesse an Privatsphäre wenn es Funktionalität kostet!
+
+1. Fingerprinting APIs werden für alle Scripts komplett Eingeschränkt
+2. Fingerprinting APIs werden Eingeschränkt für Scripts von Fingerprinting Domains
+3. Fingerprinting Domains werden komplett Blockiert
+4. externe Fingerprinting Domains blockieren + API Restrictions für First Party und Inline Scripts von detektierten Domains
  -->
 
 ---
 
 # <ph-magnifying-glass-duotone/> FP-INSPECTOR
 
-## Design: Erkennung von Fingerabdruck-Scripts - Dynamische Analyse
+## Evaluation: Genauigkeit
 
-- Statische Methode unzureichend für Skripte mit Obfuscation
+- Zur Evaluation werden gelabelte Beispiele von Non-Fingerprinting-Scripts und Fingerprinting-Scripts (ground truth) benötigt
+
+- Labeln von (Non-)Fingerprinting-Scripts mit angepassten Heuristiken aus [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
+
+- Data Collection mit OpenWPM
+  - Alexa Top-10k + 10k gesampled aus Top 10k-100k
+  - 17.629 Seiten mit 153.354 verschiedenen Scripts
+
+<!--
+
+- ML braucht Daten, gute und saubere Daten!
+
+  - frühere Researcher haben liste von Scripten veröffentlicht, aber nicht up to date
+
+  - anti tracking lists haben oft keine Fingerprinting Domains oder labeln diese nicht explizit
+
+    - Tracking Prevention List von Disconnect hat gesonderte fingerprinting liste, aber nur domains keine spezifischen URLs zu Scripts und primär third-party Anbieter, aber first-party FP soll auch beachtet werden
+
+  - Entscheidung selber zu crawlen und zu labeln mit Heuristiken
 
 
-<div style="position:absolute;right:1em;top:33%;height:50%;display:flex;justify-content:end">
-  <img src="/script-obf.png">
-</div>
+- Heuristiken wurden angepasst um weniger false positives aufzuweisen, wichtig für Ground Truth
+  - `Canvas` und `Canvas Font`, `WebRTC` und `Audio Context` API FP Heuristiken
+  - wenn Heuristiken anschlagen ist das Script ein Fingerprinting script
 
-
-<!--  -->
+- Data Collection: Mischung aus Alexa top-10k und 10k random Seiten aus 10k-100k
+  - also sehr populäre Seiten und einige Seiten weiter unten in der liste
+  - 120s Timeout zum laden der Seiten
+ -->
