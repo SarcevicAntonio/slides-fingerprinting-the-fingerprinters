@@ -679,6 +679,8 @@ Ergebnisse:
 
 - Häufigster fall für breakage: Seiten-Funktionalitäts-Code wartet explizit auf Fingerprinting Code, forciert diesen also
 
+Insgesamt: Reduktion von Breakage um Faktor 2 bei Seiten die anfällig für Breakage sind
+
 -->
 
 ---
@@ -687,11 +689,10 @@ Ergebnisse:
 
 ## Limitationen
 
-  - Umgehen der Entdeckung durch Scriptstreuung
-    - Beziehung zwischen Scripte nicht betrachtet
-  - Umgehung von Gegenmaßnahmen durch Scriptverschmelzung
-    - Granularität von gezielter API Restriction auf Script-Ebene
-
+- Umgehen der Entdeckung durch Scriptstreuung
+  - Beziehung zwischen Scripte nicht betrachtet
+- Umgehung von Gegenmaßnahmen durch Scriptverschmelzung
+  - Granularität von gezielter API Restriction auf Script-Ebene
 
 <!--
 
@@ -710,8 +711,6 @@ Ergebnisse:
 -->
 
 ---
-
-
 
 # <ph-user-focus/> Fingerprinting der Top-100k Seiten
 
@@ -861,3 +860,54 @@ Algorithmisches Fingerprinting: Kategorie der FP Techniken die APIs mit bestimme
 
 
 -->
+
+---
+
+# <ph-lightbulb/> Fazit
+
+- FP-Inspector: Machine Learning-basierter syntaktisch und semantischer Ansatz
+
+  - Erkennt 26% mehr FP-Scripte als pure Heuristiken
+  - Bricht Webseiten bis zu 2x weniger Breakage
+
+- Analyse der Top Seiten ergibt:
+
+  - Fingerprinting so weit verbreitet wie nie zuvor: Von Top-100k Seiten 10.18% mit FP Scripts
+  - 2,349 FP Domains wurden an Tracking Listen gesendet
+
+- Neue FP-APIs gefunden: werden an Browser Anbieter und Standard Autoritäten gemeldet
+
+- Veröffentlicht für follow-up Research:
+  - Patches für OpenWPM
+  - Fingerprinting Countermeasure Prototype Browsererweiterung
+  - Liste neu entdeckter FP-Anbieter
+  - Bug Reports für Tracking Listen, Browser Anbieter und
+  - Alles zu finden unter [(github.com/uiowa-irl/FP-Inspector)](https://github.com/uiowa-irl/FP-Inspector)
+
+---
+
+# <ph-newspaper/> Weitere Paper
+
+- ["Did I delete my cookies? Cookies respawning with browser fingerprinting" Fouad et al.](https://arxiv.org/abs/2105.04381)
+  - "Our results show that 1,150 out of the top 30, 000 Alexa websites deploy this tracking mechanism."
+- ["FP-Radar: Longitudinal Measurement and Early Detection of Browser Fingerprinting" Bahrami et al.](https://arxiv.org/abs/2112.01662)
+  - "In this paper, we propose FP-Radar, a machine learning approach that leverages longitudinal measurements of web API usage on top-100K websites over the last decade, for early detection of new and evolving browser fingerprinting techniques."
+- ["EssentialFP: Exposing the Essence of Browser Fingerprinting" Sjösten et al.](https://ieeexplore.ieee.org/document/9583693)
+  - "We argue that the pattern of (i) gathering information from a wide browser API surface (multiple browser-specific sources) and (ii) communicating the information to the network (network sink) captures the essence of fingerprinting. This pattern enables us to clearly distinguish fingerprinting from similar types of scripts like analytics and polyfills. To implement EssentialFP we leverage, extend, and deploy JSFlow, a state-of-the-art information flow tracker for JavaScript, in a browser."
+
+<!-- prettier-ignore-start -->
+<!--  -->
+---
+layout: cover
+background: https://images.pexels.com/photos/8382599/pexels-photo-8382599.jpeg
+---
+<!-- prettier-ignore-end -->
+
+# Vielen Dank für Ihre Aufmerksamkeit
+
+## Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verhalten lernen und erkennen
+
+Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
+
+
+<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learningto detect browser fingerprinting behaviors” , 2020.</a>
