@@ -36,7 +36,9 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - Limitationen
 
-- <ph-hand-eye/> Fingerprinting der Top-100k
+- <ph-user-focus/> Fingerprinting der Top-100k
+
+- <ph-hand-eye/> Analyse der für Fingerprinting missbrauchten APIs
 
 - <ph-lightbulb/> Fazit
 
@@ -73,7 +75,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 - Aufdringlicher als Cookies da 1. Cookies im Browser angezeigt werden und 2. bearbeitet bzw. gelöscht werden können
 
 - Cross-Site Tracking möglich und vor allem interessant weil z.B. Safari und Firefox immer stärker gegen third-party cookies vorgehen
- -->
+-->
 
 ---
 
@@ -101,7 +103,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
   - Alternativ gibt es auch noch https://amiunique.org/fp welches sich eher an Technischere Menschen richtet und nur Fingerprinting betrachtet
 
 - Browserfeatures wie Bettery Status API in Firefox bereits deprecated wegen Datenschutzbedenken
- -->
+-->
 
 ---
 
@@ -131,7 +133,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 - "statistischer" also kein deterministischer Identifikator
 
 - AmIUnique und Panopticlick wird primär von technisch Interessierten Personen genutzt, daher sind die Zahlen biased
- -->
+-->
 
 ---
 
@@ -158,7 +160,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 <!--
 - Weitere Studien: Studien verwenden alle verschiedene Strategien um auf fingerprinting zu prüfen, dennoch lässt sich ein Trend erkennen
 - Trotz der verstärkten Kontrolle durch Browser-Anbieter und die Öffentlichkeit ist das Fingerprinting nach wie vor weit verbreitet.
- -->
+-->
 
 ---
 
@@ -182,7 +184,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - Heuristik muss spezifisch genug sein, um wenige Seiten falsch zu blocken
 
-  - sehr spezifische Heuristik können aber FP-Scripts übersehen
+  - sehr spezifische Heuristik können aber FP-Scripte übersehen
 
   - Heuristik muss ständig aktuell gehalten werden
 
@@ -194,7 +196,7 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 - Aktives Fingerprinting: im Client Browser
 
 - Passives Fingerprinting: Informationen aus Web Requests
- -->
+-->
 
 ---
 
@@ -212,13 +214,13 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   - statische Codeanalyse unzureichend bei Codeobfuscation und Enumeration
 
-  - dynamische Analyse unzureichend bei Scripts die über Nutzerinput oder Browser-Events getriggert werden
+  - dynamische Analyse unzureichend bei Scripte die über Nutzerinput oder Browser-Events getriggert werden
 
 <!--
 - stateless und stateful tracking sehr unterschiedlich, deshalb Lösung die beides zusammenpackt unzureichend
 
-- dynamische Analyse: lässt Skript laufen und beobachtet verhalten (API Calls, Call Stack, etc)
- -->
+- dynamische Analyse: lässt Script laufen und beobachtet verhalten (API Calls, Call Stack, etc)
+-->
 
 ---
 
@@ -245,7 +247,7 @@ for (i = 0; i < fonts.length; i++) {
 <!--
 - Ein Beispiel für Vielzahl von Fingerprinting Möglichkeiten
 - aber anschaulich und wird auch im Paper später benutzt
- -->
+-->
 
 ---
 
@@ -253,14 +255,14 @@ for (i = 0; i < fonts.length; i++) {
 
 ## Vorarbeit: Heuristik
 
-- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von FP-Scripts
+- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von FP-Scripte
 
 - Kriterien für Erkennung von Canvas Font Fingerprinting:
 
   - Script setzt `CanvasRenderingContext2D.font` mindestens 50 mal auf gültige Werte
   - Script ruft `CanvasRenderingContext2D.measureText(...)` mindestens 50 mal mit dem selben String auf
 
-- Nach manueller Untersuchung der Erkannten Scripts wurden bei 1 Millionen Seiten kein False Positive gefunden.
+- Nach manueller Untersuchung der Erkannten Scripte wurden bei 1 Millionen Seiten kein False Positive gefunden.
 
 <!-- prettier-ignore-start -->
 <!--  -->
@@ -302,7 +304,7 @@ layout: two-cols
   - HTTP Data
   - JavaScript Access: custom getter und setter um zugriff auf APIs aufzunehmen
   - alles wird in SQLite Datenbank geschrieben
- -->
+-->
 
 ---
 
@@ -318,11 +320,11 @@ layout: two-cols
 
   - extrahieren von syntaktischen und semantischen Features
 
-  - trainieren von Klassifizierer um FP-Scripts zu erkennen
+  - trainieren von Klassifizierer um FP-Scripte zu erkennen
 
 - Mitigationskomponente
 
-  - Reihe von Einschränkungen für erkannte Scripts ("layered approach")
+  - Reihe von Einschränkungen für erkannte Scripte ("layered approach")
 
   - Wirkt gegen passives und/oder aktives Fingerprinting
 
@@ -339,7 +341,7 @@ layout: two-cols
 2. Vorarbeit für Erkennung (Daten extrahieren und glatt ziehen)
 3. Erkennungskomponente: Feature Extraktion und training
 4. Mitigationskomponente "layered approach"
- -->
+-->
 
 ---
 
@@ -357,9 +359,9 @@ layout: two-cols
 
 - Kombination aus statischer und dynamischer Analyse
 
-  - Statische Analyse: Erkennung von Scripts die beim einfachen Crawlen nicht anspringen
+  - Statische Analyse: Erkennung von Scripte die beim einfachen Crawlen nicht anspringen
 
-  - Dynamische Analyse: Erkennung von Scripts mit Obfuscation, Minimierung, und Enumeration
+  - Dynamische Analyse: Erkennung von Scripte mit Obfuscation, Minimierung, und Enumeration
 
   - Trainieren zwei separater Modelle, Kombination der Ergebnisse
 
@@ -379,9 +381,9 @@ layout: two-cols
 
 <!--
 
-- OpenWPM sammelt bereits HTTP responses von extern geladenen Skripten -> Erweiterung für inline scripts
-- OpenWPM zeichnet nur subset der APIs auf; alle APIs aufzeichnen wäre nicht performant; Erweiterung um populäre fingerprinting APIs aus offenen Skripten (fingerprintjs2)
- -->
+- OpenWPM sammelt bereits HTTP responses von extern geladenen Scripten -> Erweiterung für inline scripte
+- OpenWPM zeichnet nur subset der APIs auf; alle APIs aufzeichnen wäre nicht performant; Erweiterung um populäre fingerprinting APIs aus offenen Scripten (fingerprintjs2)
+-->
 
 ---
 
@@ -418,10 +420,10 @@ layout: two-cols
   - AST als Baum von Syntax primitiven und deren Beziehungen
   - Knoten für Keywords (for, eval), Identifiers (Funktionen und Variablennamen) und Literals (Fixwerte wie Strings)
 
-- Unpacking: Scripts die mit eval gewrapped sind müssen entpackt werden um einen Nützlichen AST zu generieren
+- Unpacking: Scripte die mit eval gewrapped sind müssen entpackt werden um einen Nützlichen AST zu generieren
   - Wird mithilfe eines instrumentieren Browsers gemacht:
-    - Skripte werden leeres Dokument eingebettet und dann die interpretation der JavaScript engine extrahiert
-  - selbes verfahren fürs extrahieren von inline HTML Skripte
+    - Scripte werden leeres Dokument eingebettet und dann die interpretation der JavaScript engine extrahiert
+  - selbes verfahren fürs extrahieren von inline HTML Scripte
 
 - feature extraction: einteilen des AST in parent und child nodes
   - parents als context (for loops, try statements, if conditions)
@@ -483,7 +485,7 @@ layout: two-cols
   - heißt am ende teilen in nicht fingerprinting und fingerprinting kind knoten
 
 - getrennte Bäume: -> Ergebnis wird verORt / Union
- -->
+-->
 
 <!-- prettier-ignore-start -->
 <!--  -->
@@ -517,18 +519,18 @@ layout: two-cols
 
 <!--
 - Gegenmaßnahmen grob Einteilbar in:
-  - Content Blocking: Requests von Domains oder URLs die Fingerprinting Scripts liefern blockieren (Fingerprinting Domains)
+  - Content Blocking: Requests von Domains oder URLs die Fingerprinting Scripte liefern blockieren (Fingerprinting Domains)
   - API Restriction: API Zugang limitieren oder verändern
 
 - Wichtig zu beachten ist Website Breakage (wie oft Webseiten brechen)
   - API Restriction funktioniert gut gegen Fingerprinting aber sobald APIs für Funktionalität genutzt werden wird's haarig
   - Nutzer haben kein Interesse an Privatsphäre wenn es Funktionalität kostet!
 
-1. Fingerprinting APIs werden für alle Scripts komplett Eingeschränkt
-2. Fingerprinting APIs werden Eingeschränkt für Scripts von Fingerprinting Domains
+1. Fingerprinting APIs werden für alle Scripte komplett Eingeschränkt
+2. Fingerprinting APIs werden Eingeschränkt für Scripte von Fingerprinting Domains
 3. Fingerprinting Domains werden komplett Blockiert
-4. externe Fingerprinting Domains blockieren + API Restrictions für First Party und Inline Scripts von detektierten Domains
- -->
+4. externe Fingerprinting Domains blockieren + API Restrictions für First Party und Inline Scripte von detektierten Domains
+-->
 
 ---
 
@@ -536,15 +538,15 @@ layout: two-cols
 
 ## Evaluation: Genauigkeit der Erkennung
 
-- Zur Evaluation werden gelabelte Beispiele von Non-FP-Scripts und FP-Scripts (ground truth) benötigt
+- Zur Evaluation werden gelabelte Beispiele von Non-FP-Scripte und FP-Scripte (ground truth) benötigt
 
-- Labeln von (Non-)FP-Scripts mit angepassten Heuristiken aus [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
+- Labeln von (Non-)FP-Scripte mit angepassten Heuristiken aus [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
 
 - Data Collection mit OpenWPM
 
   - Alexa Top-10k + 10k (gesampled aus Top 10k-100k) -> 20k Seiten gecrawed
 
-  - 17.629 Seiten mit 153.354 verschiedenen Scripts gefunden
+  - 17.629 Seiten mit 153.354 verschiedenen Scripte gefunden
 
 - Reminder: Heuristiken nicht perfekt
 
@@ -556,7 +558,7 @@ layout: two-cols
 
   - anti tracking lists haben oft keine Fingerprinting Domains oder labeln diese nicht explizit
 
-    - Tracking Prevention List von Disconnect hat gesonderte fingerprinting liste, aber nur domains keine spezifischen URLs zu Scripts und primär third-party Anbieter, aber first-party FP soll auch beachtet werden
+    - Tracking Prevention List von Disconnect hat gesonderte fingerprinting liste, aber nur domains keine spezifischen URLs zu Scripte und primär third-party Anbieter, aber first-party FP soll auch beachtet werden
 
   - Entscheidung selber zu crawlen und zu labeln mit Heuristiken
 
@@ -570,7 +572,7 @@ layout: two-cols
   - 120s Timeout zum laden der Seiten
 
 
-- Heuristiken: müssen spezifisch genug sein, können aber wenn zu spezifisch FP-Scripts übersehen; außerdem müssen die aktuell gehalten werden
+- Heuristiken: müssen spezifisch genug sein, können aber wenn zu spezifisch FP-Scripte übersehen; außerdem müssen die aktuell gehalten werden
 
 -->
 
@@ -604,12 +606,12 @@ layout: two-cols
     - Ähnlichkeitsscore zu Fingerprintjs2
     - komplettes formatiertes Script
   - Manuelle Auswertung von mehreren anhand der Kriterien:
-    1. Funktionalität und Struktur ist ähnlich zu bekannten FP-Scripts
+    1. Funktionalität und Struktur ist ähnlich zu bekannten FP-Scripte
     2. Script verwendet weiteren FP-Code
     3. Potentieller Fingerprinting Teil interagiert nicht mit funktionellem Teil
 
 
-  - Auswertung war "straightforward", viele Scripts waren ähnlich zu bekannten FP Scripts und konnten in Grunddaten als FP gelabled werden´
+  - Auswertung war "straightforward", viele Scripte waren ähnlich zu bekannten FP Scripte und konnten in Grunddaten als FP gelabled werden´
     - Falls Script FP funktionalität nutzt gilt gesammte Script als Fingerprinting, sonst NON-FP
     - wie erwartet sind FP-Scripte durch heuristiken durchgerutscht: hauptgründe
       - Script wurde nicht ausgeführt, weil event nicht ausgeführt etc
@@ -619,7 +621,7 @@ layout: two-cols
 _Tabelle_
 
 - mehrheitlich korrekt klassifiziert
-- kann auch neue skripte erkennen wenn ground truth verbessert
+- kann auch neue Scripte erkennen wenn ground truth verbessert
 
 -->
 
@@ -632,9 +634,9 @@ _Tabelle_
 ![Genauigkeitstabelle: "TABLE II: FP-INSPECTOR’s classification results in terms of recall, precision, and accuracy in detecting fingerprinting scripts. “Heuristics (Scripts/Websites)” represents the number of scripts and websites detected by heuristics and “Classifiers (Scripts/Websites)” represents the number of scripts and websites detected by the classifiers. FPR represents false positive rate and FNR represent false negative rate."](/accuracy.png)
 
 - Kombination aus statischer und dynamischer Analyse Kombination durch "OR" Verknüpfung der zwei Classifier
-  - 94,46% der Scripts die nur durch statische Analyse erkannt wurden waren ruhend
-  - 92.30% der Scripts die nur durch dynamische Analyse erkannt wurden waren obfuscated/stark minified
-- Classifier erkennt 26% mehr Scripts als pure Heuristiken
+  - 94,46% der Scripte die nur durch statische Analyse erkannt wurden waren ruhend
+  - 92.30% der Scripte die nur durch dynamische Analyse erkannt wurden waren obfuscated/stark minified
+- Classifier erkennt 26% mehr Scripte als pure Heuristiken
 
 ---
 
@@ -651,6 +653,7 @@ _Tabelle_
   - Einteilen in jeweils "Major", "Minor" oder "None" Breakage
 
 <img
+  v-click
   src="/breakage.png"
   alt='Breakage: "TABLE III: Breakdown of breakage caused by different countermeasures. The results present the average assessment of two reviewers."'
   style="height:60%;margin:auto"
@@ -667,6 +670,7 @@ Testen der Seiten:
 
 - breakage wurde von zwei reviewers untersucht um bias zu verhindern
 
+Ergebnisse:
 - pauschale API Restriction bricht am häufigsten, und häufiger als Request blocking, weil auch nicht FP-Scripte betroffen sind
 - gezielte API Restriction bricht am wenigsten
 - Hybrid bricht weniger als Request Blocking, aber öfter als API restriction
@@ -675,21 +679,185 @@ Testen der Seiten:
 
 - Häufigster fall für breakage: Seiten-Funktionalitäts-Code wartet explizit auf Fingerprinting Code, forciert diesen also
 
- -->
+-->
 
 ---
 
-# <ph-hand-eye/> Fingerprinting der Top-100k Seiten
+# <ph-magnifying-glass/> FP-INSPECTOR
 
-## Mehr als ein Viertel der Top-Websites nehmen jetzt Fingerabdrücke von Nutzern
+## Limitationen
 
-!["TABLE IV: Distribution of Alexa top-100K websites that deploy fingerprinting. Results are sliced by site rank."](/wild-fprate.png)
+  - Umgehen der Entdeckung durch Scriptstreuung
+    - Beziehung zwischen Scripte nicht betrachtet
+  - Umgehung von Gegenmaßnahmen durch Scriptverschmelzung
+    - Granularität von gezielter API Restriction auf Script-Ebene
+
 
 <!--
 
-- Mittels Erkennungskomponenten von FP-Inspect wurden top-100k Alexa seiten gecrawled
+- Scriptstreuung: FP-Scripte in mehrere Scripte aufteilen, z.B. teil Funktionen in globalen Scope schreiben
+  - Beziehung zwischen Scripte könnte man in Zukunft hinzufügen
+  - Streuung hat jedoch extra Wartungskosten
 
-- Mehr als ein Viertel der Top-Websites nehmen jetzt Fingerabdrücke von Nutzern
+- Scriptverschmelzung: Zusammenfügen von Funktionalen Scripten mit FP Scripten
+  - Zusammenfügen würde Website Brechen und Nutzer zwingen gegenmaßnahmen auszuschalten
+  - mehr Granularität denkbar
+  - Verschmelzung hat auch extra Wartungskosten
+  - Verschmelzung funktioniert auch gegen andere Werbung und Tracking Blocker
+
+- beides könnte in Zsukunft verbessert werden
+
+-->
+
+---
 
 
- -->
+
+# <ph-user-focus/> Fingerprinting der Top-100k Seiten
+
+## Mehr als ein Viertel der Top-Websites nehmen Fingerabdrücke von Nutzern
+
+<img alt="'TABLE IV: Distribution of Alexa top-100K websites that deploy fingerprinting. Results are sliced by site rank.'" src="/wild-fprate.png" style="height:60%;margin:auto;"/>
+
+<!--
+
+- Mittels Erkennungskomponenten von FP-Inspect wurden top-100k Alexa Seiten gecrawled
+  - Analog zu Englehardt und Narayanan in 2016
+- FP häufiger auf populären Seiten
+- Mehr FP als man in vorherigen Studien beobachtet hat
+- Mehr als ein Viertel der Top-Websites nehmen Fingerabdrücke von Nutzern
+- auch weniger populäre Seiten zeigen mehr FP auf
+- overall 10,18% der top-100k verwendet FP Scripte
+- Möglichkeiten für funde:
+  - Erkennung ist weitreichender als bei Englehardt udn Narayanan und/oder
+  - Fingerprinting hat seit 2016 deutlich zugenommen
+
+-->
+
+---
+
+# <ph-user-focus/> Fingerprinting der Top-100k Seiten
+
+## Fingerprinting ist auf Nachrichtenseiten am häufigsten zu finden
+
+<img alt="'Fig. 4: The deployment of fingerprinting scripts across different categories of websites.'" src="/wild-news.png" style="height:70%;margin:auto;"/>
+
+<!--
+
+- FP ungleichmäßig über verschiedene Kategorien von Seiten verteilt
+  - fast 14% Nachrichten
+  - nur 1% Bankseiten
+
+- Muster gilt in etwa für generelles Tracking, nicht nur FP
+  - Tracking oft auf Seiten die sich mit Werbung finanzieren
+  - auch denkbar das FP zur Durchsetzung von Paywalls genutzt wird, Cookies da sehr einfach zu umgehen
+-->
+
+---
+
+# <ph-user-focus/> Fingerprinting der Top-100k Seiten
+
+## Fingerprinting wird zur Bekämpfung von Anzeigenbetrug eingesetzt, aber auch für potenzielles Cross-Site-Tracking
+
+<img
+  src="/wild-vendors.png"
+  alt="'TABLE V: The presence of the top vendors classified as fingerprinting on Alexa top-100K websites. Tracker column shows whether the vendor is a cross-site tracker according to Disconnect’s tracking protection list. Y represents yes and N represents no.'"
+  style="height:70%;margin:auto"
+/>
+
+<!--
+
+- FP-Scripte oft von third party Anbieter
+  - doubleverify, adsafeprotected und adscore sind Anti-Ad-Fraud services die auf die Überprüfung der Echtheit von Ad Impressions spezialisiert (prüfen ob Werbung gesehen wurde)
+  - Bot-Erkennungs-Services nutzen auch FP
+  - alicdn und yimg sind CDNs für jeweils Alibaba udn Oath/Yahoo!
+
+- mehrere FP-Anbieter geben auch zu Daten zu teilen
+  - Abgleich der FP-Anbieter liste mit Tracking Protection list von Disconnect:
+    - Disconnect hat manuelles review für diese Einteilung, als Tracker gilt jemand der Personenbezogene Daten Teilt
+    - 3,78% der FP-Anbieter sind Tracking Dienste laut Disconnect
+
+- Cookie syncing: das nutzen von FP um Cookies (und am Ende Nutzerdaten) zu verknüpfen
+  - Abgleich der FP-Anbieter liste mit cookie synching liste vorheriger Forschung: 17,28% der FP-Anbieter beteiligen sich an Cookie Synching
+  - FP-Anbieter synchronisieren cookies mit großen Werbeanbietern
+  - oft auch mit mehreren Anbietern
+  - Fingerprinting und die Rolle beim Cookie Syncing als mögliche weitere Arbeit
+
+-->
+
+---
+
+# <ph-hand-eye/> Analyse der für Fingerprinting missbrauchten APIs
+
+##
+
+<img
+  src="/api-anal.png"
+  alt="'TABLE VI: A sample of frequently used JavaScript API keywords in fingerprinting scripts and their presence on 20K websites crawl. Scripts (count) represents the number of distinct fingerprinting scripts in which the keyword is used and Websites (count) represents the number of websites on which those scripts are embedded.'"
+  style="height:70%;margin:auto"
+/>
+
+<!--
+- ernste Bedenken wie neue und vorhandene JS APIs für FS in unerwarteten wegen missbraucht werden können
+
+- Analyse der Verteilung von JS APIs in FP- und Non-FP-Scripte
+  - Extraktion von JS API Keywords aus gesammeltem Source Code und sortieren nach Verhältnis des Vorkommens in FP- und Non-FP-Scripte
+  - höheres Verhältnis bedeutet API wird häufiger in FP-Scripte benutzt
+  - unendlich bedeutet wird exklusiv in FP-Scripte benutzt
+
+Tabelle
+
+- zu viel zur manuellen Analyse: einteilen in Cluster über einen gewichteten Graphen der gleichzeitiges Auftreten widerspiegelt
+  - da FP-Scripte oft mehrere FP Techniken gleichzeitig verwenden hofft man auf deutlichen FP Cluster
+  - hoch konzentrierte Cluster neigen dazu zu FP-Scripte zu gehören
+  - Nutzung weiter JS APIs für Fingerprinting entdeckt
+-->
+
+---
+
+# <ph-hand-eye/> Analyse der für Fingerprinting missbrauchten APIs
+
+## Fingerprinting der Funktionalität
+
+1. Berechtigung Fingerprinting
+2. Peripherie Fingerprinting
+3. API Fingerprinting
+
+## Algorithmisches Fingerprinting
+
+1. Timing Fingerprinting
+2. Animation Fingerprinting
+3. Audio Fingerprinting
+4. Sensor Fingerprinting
+
+<!--
+
+- Neu gefundene FP-APIs eingeteilt in Kategorien
+
+Fingerprinting der Funktionalität: Kategorie der FP Techniken bei denen verschiedene Browser Funktionalität und APIs geprüft werden
+
+1. Permission JS API kann genutzt werden um status einzelner Berechtigungen nachzufragen
+  - FP Scripte benutzen Status der Notification, Geolocation und Kamera Berechtigungen
+  - Unterschiedliche Browser und Nutzereinstellungen bieten Fläche für Fingerprinting
+
+2. Peripherie Fingerprinting: Moderne Browser können nach Geräten suchen z.B. Keyboard Layout, Gamepads oder VR Geräten
+  - Unterschiedliche Peripherie sorgt für FP Entropy
+
+3. API Fingerprinting: Ausnutzen der Unterschiedlichen Features und APIs unter Browsern und Browsererweiterungen
+  - API Implementierungen können sich je Browser unterscheiden
+    - bzw. neue Features erst nur auf einer Platform z.B. AudioWorklet zuerst in Chrome
+  - Browsererweiterungen können JavaScript Methoden überschreiben, FP Scripte können diese Überprüfen
+  - Beides bietet FP Fläche
+
+Algorithmisches Fingerprinting: Kategorie der FP Techniken die APIs mit bestimmen Inputs benutzen um darüber ein FP zu generieren, also nicht nur prüfen der APIs
+
+
+1. Timing Fingerprinting: `Performance` API bietet hochauflösende Timestamps, wird genutzt in Kombination mit verschiedenen Browser Events wie `domainLookupStart`, `domainLookupEnd` oder `domInteractive`
+2. Animation Fingerprinting: Ähnlich wie Timing. FP Scripte benutzen `requestAnimationFrame` um Framerate vom Browser zu berechnen, die meist mit Wiederholrate vom Bildschirm zusammenhängt
+3. Englehardt udn Narayanan haben bereits Audio FP beobachtet: Nutzen hat sich erweitert durch nutzen weiterer Properties der AudioContext API z.B. `canPlayType`
+4. Sensor Fingerprinting: Ausnutzen von Sensoren an z.B. Mobilgeräten wie `devicemotion`, `deviceorientation` und neu entdeckt `userproximity`
+
+- Unterschiede bieten FP Entropy
+
+
+-->
