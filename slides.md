@@ -12,7 +12,7 @@ title: "Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verh
 
 Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
 
-<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learningto detect browser fingerprinting behaviors” , 2020.</a>
+<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learning to detect browser fingerprinting behaviors” , 2020.</a>
 
 <!-- prettier-ignore-start -->
 <!--  -->
@@ -60,21 +60,25 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
   2. fehlende Kontrolle
 
-- Fingerprinting z.B. für bot-detection (Google reCAPTCHA)
+- Fingerprinting für
 
-  - aber eben auch Cross-Site Tracking möglich
+  - bot-detection (Google reCAPTCHA)
 
-  - oder um Cookies zu "regenerieren"
+  - Cookies regenerieren oder synchronisieren
+
+  - Cross-Site Tracking
 
 <!--
 - stateless: ohne speichern eines Tokens im Client
-  - Gegensatz zu stateful tracking über Cookie oder Local Storage
+  - gg. stateful tracking: Cookie oder Local Storage
 
-- laut Browser Entwickler und Standard Autoritäten wie dem World Wide Web Consortium (W3C) ist Fingerprinting auch eine "missbräuchliche Praxis"
+- Laut Browser Entwickler und W3C: Fingerprinting "missbräuchliche Praxis"
 
-- Aufdringlicher als Cookies da 1. Cookies im Browser angezeigt werden und 2. bearbeitet bzw. gelöscht werden können
+- Aufdringlicher als Cookies
+  1. Cookies im Browser angezeigt
+  2. Cookies können bearbeitet bzw. gelöscht werden
 
-- Cross-Site Tracking möglich und vor allem interessant weil z.B. Safari und Firefox immer stärker gegen third-party cookies vorgehen
+- Cross-Site Tracking interessant weil Safari und Firefox vermehrt gg. third-party cookies vorgehen
 -->
 
 ---
@@ -83,26 +87,26 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 ## Ursprünge vom Fingerprinting
 
-- [Mayer](https://jonathanmayer.org/publications/thesis09.pdf) zeigt 2009 das "quirkiness" (Systemkonfiguration) Nutzer identifizieren kann
+- [Mayer](https://jonathanmayer.org/publications/thesis09.pdf) 2009: "quirkiness" (Systemkonfiguration) kann Nutzer identifizieren
 
-- 2010 entwickelt [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) die Seite [Panopticlick](http://panopticlick.eff.org/) um Browser-Fingerprinting durchzuführen zu analysieren
+- [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) 2010: [Panopticlick](http://panopticlick.eff.org/) entwickelt um FP durchzuführen zu analysieren
 
-- Ausnutzung verschiedener APIs für Fingerprinting im freien Web in verschiedenen Studien gefunden [[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[38]](https://www.esat.kuleuven.be/cosic/publications/article-2334.pdf), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf),
+- Missbrauch verschiedener APIs für FP im freien Web in verschiedenen Studien gefunden
+  ([[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[38]](https://www.esat.kuleuven.be/cosic/publications/article-2334.pdf), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf))
 
-- Moderne Browserfeatures und JavaScript APIs und bieten immer mehr Oberfläche für fingerprinting (`Canvas`, `WebGL`, Browser-Erweiterungen, Sensoren an Mobilgeräten, ...)
-  [[75]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6547132), [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf)
+- Moderne Browserfeatures und JavaScript APIs: vergrößern Oberfläche für FP (`Canvas`, `WebGL`, Browser-Erweiterungen, Sensoren an Mobilgeräten, ...)
+  ([[75]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6547132), [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf))
 
-- W3C startete 2011 Entwicklung eines [Leitfadens zur Auswertung neuer Webstandards im Bezug auf Privatsphäre](https://www.w3.org/2019/09/privacy-ig-charter.html)
+- W3C 2011: Entwicklung eines [Leitfadens zur Auswertung neuer Webstandards im Bezug auf Privatsphäre](https://www.w3.org/2019/09/privacy-ig-charter.html)
 
 <!--
-- 2009: Damals waren Java und Flash noch relevant
-  - waren noch Fataler als JavaScript, da diese Umgebungen noch mehr Informationen über Hardware und Systemkonfiguration verarbeiten konnten
+- 2009: Java und Flash noch relevant
+  - Fataler als JavaScript: noch mehr Informationen über Hardware und Systemkonfiguration
   - wobei JavaScript halt auch schon ausreicht um genug Schabernack zu Treiben
-- 2010: Panopticlick analysiert browser und requests um einen Fingerprint zu erstellen und gleicht es mit einer Datenbank um zu ermitteln ob der Fingerprint einzigartig ist und zur Identifizierung taugt
-  - Seite mittlerweile umgebaut und nun ein analyse gegen generelles Browser Tracking
-  - Alternativ gibt es auch noch https://amiunique.org/fp welches sich eher an Technischere Menschen richtet und nur Fingerprinting betrachtet
+- 2010: Webseite Panopticlick analysiert Browser APIs und Requests um einen Fingerprint zu erstellen
+  - Abgleich mit Datenbank um zu checken wie einzigartig FP ist und zur ob Identifizierung taugt
 
-- Browserfeatures wie Bettery Status API in Firefox bereits deprecated wegen Datenschutzbedenken
+- Moderne Browserfeatures: Bettery Status API in Firefox bereits deprecated wegen Datenschutzbedenken
 -->
 
 ---
@@ -113,26 +117,28 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - Fingerprint als "statistischer" Identifikator
 
-- Identifizierbarkeit abhängig von Anzahl Geräten mit gleicher Konfiguration
+  - Identifizierbarkeit abhängig von Anzahl Geräten mit gleicher Konfiguration
 
   - bzw. "uniqueness" des Fingerprints
 
-- Laut [Laperdrix et al.](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7546540) ([AmIUnique](https://amiunique.org/)) und [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) ([Panopticlick](http://panopticlick.eff.org/)) besitzen 83% - 90% der Geräte eindeutigen Fingerprint (wahrscheinlich etwas biased)
+- [Laperdrix et al.](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7546540) ([AmIUnique](https://amiunique.org/)) und [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) ([Panopticlick](http://panopticlick.eff.org/)): 83% - 90% der Geräte eindeutigen Fingerprint (biased)
 
-- [Broix et al.](https://hal.inria.fr/hal-01718234v2/document) finden auf der Seite eines französischen Verlags nur 33.6% Geräte mit eindeutigem Fingerprint (Mehr Daten für mehr uniqueness benötigt)
+- [Broix et al.](https://hal.inria.fr/hal-01718234v2/document) auf der Seite eines französischen Verlags: nur 33.6% Geräte mit eindeutigem Fingerprint (Mehr Daten für mehr uniqueness benötigt)
 
-- Desktop Browser eher unique als mobile Browser
+- Stabile / Verknüpfbare Fingerprints zum Tracking benötigt:
 
-- Stabile oder Verknüpfbare Fingerprints zum Tracking benötigt:
-
-  - Laut Eckersley haben 37% der wiederkehrende Besucher mehr als einen Fingerprint, aber 65% der Geräte konnten über einfache heuristische Verknüpfung re-identifiziert werden
+  - [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1): 37% der wiederkehrende Besucher mehr als einen Fingerprint, aber 65% der Geräte konnten über einfache heuristische Verknüpfung re-identifiziert werden
 
   - [Vastel et al.](https://hal.inria.fr/hal-01652021/document#:~:text=FP%2DSTALKER%20is%20an%20approach,machine%20learning%20to%20boost%20accuracy.) verbesserten 2017 diese Heuristik und konnten auf AmIUnique Besucher im Schnitt 74 Tage verfolgen
 
 <!--
-- "statistischer" also kein deterministischer Identifikator
 
-- AmIUnique und Panopticlick wird primär von technisch Interessierten Personen genutzt, daher sind die Zahlen biased
+- "statistischer": kein deterministischer Identifikator
+
+- AmIUnique und Panopticlick: primär von technisch Interessierten Personen genutzt, daher sind die Zahlen biased
+
+- Broix: nur limitiertes Fingerprinting (IP, Content Language, Timezone header für mehr uniqueness)
+
 -->
 
 ---
@@ -166,72 +172,9 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 # <ph-fingerprint/> Browser-Fingerprinting
 
-## Mitigation
-
-- randomization: Rückgabewerte von APIs mit Rauschen randomisieren (Canvas Defender)
-
-  - kann Funktionen der Seite verändern
-
-  - reversibel, wenn "random" Wert auf Ursprungswert basiert
-
-  - Noise output kann sogar als Datenpunkt fingerprint genutzt werden
-
-- normalization: Rückgabewerte fixieren oder APIs blockieren (Tor, Brave)
-
-  - können Seite limitieren oder komplett brechen
-
-- heuristisch: vordefinierte Patterns erkennen und Blockieren (Privacy Badger, Disconnect)
-
-  - Heuristik muss spezifisch genug sein, um wenige Seiten falsch zu blocken
-
-  - sehr spezifische Heuristik können aber FP-Scripte übersehen
-
-  - Heuristik muss ständig aktuell gehalten werden
-
-  - Schutz gegen passives Fingerprinting durch Blockieren von Anfragen
-
-<!--
-- normalization: alle Nutzer sollen selben Fingerprint haben
-
-- Aktives Fingerprinting: im Client Browser
-
-- Passives Fingerprinting: Informationen aus Web Requests
--->
-
----
-
-# <ph-fingerprint/> Browser-Fingerprinting
-
-## Machine Learning Lösungen zur Erkennung von Fingerabdrücken
-
-- Bisher wurden Machine Learning Lösungen primär für stateful Tracking entwickelt, ohne Scharf zwischen den Typen zu trennen
-
-  - stateless Tracking detection nicht zufriedenstellend
-
-- [Rizzo](https://webthesis.biblio.polito.it/8227/1/tesi.pdf) versuchte 2018 über Machine Learning und statischer Codeanalyse Fingerprinting zu erkennen
-
-- Zum lernen können Features durch statische Codeanalyse oder durch dynamische Analyse extrahiert werden
-
-  - statische Codeanalyse unzureichend bei Codeobfuscation und Enumeration
-
-  - dynamische Analyse unzureichend bei Scripte die über Nutzerinput oder Browser-Events getriggert werden
-
-<!--
-- stateless und stateful tracking sehr unterschiedlich, deshalb Lösung die beides zusammenpackt unzureichend
-
-- dynamische Analyse: lässt Script laufen und beobachtet verhalten (API Calls, Call Stack, etc)
--->
-
----
-
-# <ph-magnifying-glass/> FP-INSPECTOR
-
-## Vorarbeit: Heuristik
-
-Beispiel: CanvasRenderingContext2D Font Fingerprinting
+## Beispiel: CanvasRenderingContext2D Font Fingerprinting
 
 ```js
-// canvas-font-fingerprinting.js
 fonts = ["monospace", ..., "sans-serif"]; // Einen Haufen valider "Font" Werte
 canvasElement = document.createElement("canvas");
 canvasElement.width = "100";
@@ -908,6 +851,5 @@ background: https://images.pexels.com/photos/8382599/pexels-photo-8382599.jpeg
 ## Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verhalten lernen und erkennen
 
 Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
-
 
 <a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learningto detect browser fingerprinting behaviors” , 2020.</a>
