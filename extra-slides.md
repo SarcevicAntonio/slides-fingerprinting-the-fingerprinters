@@ -57,3 +57,25 @@
 -->
 
 ---
+
+# <ph-magnifying-glass/> FP-INSPECTOR
+
+## Design: Erkennung - Neuheiten
+
+- Automatisches lernen von Heuristiken
+
+  - low-level Heuristiken zum Sammeln von syntaktischen und semantischen Eigenschaften
+
+  - Trainieren mit "ground truth" aus vorheriger Forschung
+
+  - Klassifizierer kann neue FP-Scripte und -Methoden erkennen
+
+- Kombination aus statischer und dynamischer Analyse
+
+  - Statische Analyse: Erkennung von Scripte die beim einfachen Crawlen nicht anspringen
+
+  - Dynamische Analyse: Erkennung von Scripte mit Obfuscation, Minimierung, und Enumeration
+
+  - Trainieren zwei separater Modelle, Kombination der Ergebnisse
+
+---
