@@ -1,3 +1,32 @@
+
+# <ph-fingerprint/> Browser-Fingerprinting
+
+## Ursprünge vom Fingerprinting
+
+- [Mayer](https://jonathanmayer.org/publications/thesis09.pdf) 2009: "quirkiness" (Systemkonfiguration) kann Nutzer identifizieren
+
+- [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) 2010: [Panopticlick](http://panopticlick.eff.org/) entwickelt um FP durchzuführen zu analysieren
+
+- Missbrauch verschiedener APIs für FP im freien Web in verschiedenen Studien gefunden
+  ([[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[38]](https://www.esat.kuleuven.be/cosic/publications/article-2334.pdf), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf))
+
+- Moderne Browserfeatures und JavaScript APIs: vergrößern Oberfläche für FP (`Canvas`, `WebGL`, Browser-Erweiterungen, Sensoren an Mobilgeräten, ...)
+  ([[75]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6547132), [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf))
+
+- W3C 2011: Entwicklung eines [Leitfadens zur Auswertung neuer Webstandards im Bezug auf Privatsphäre](https://www.w3.org/2019/09/privacy-ig-charter.html)
+
+<!--
+- 2009: Java und Flash noch relevant
+  - Fataler als JavaScript: noch mehr Informationen über Hardware und Systemkonfiguration
+  - wobei JavaScript halt auch schon ausreicht um genug Schabernack zu Treiben
+- 2010: Webseite Panopticlick analysiert Browser APIs und Requests um einen Fingerprint zu erstellen
+  - Abgleich mit Datenbank um zu checken wie einzigartig FP ist und zur ob Identifizierung taugt
+
+- Moderne Browserfeatures: Bettery Status API in Firefox bereits deprecated wegen Datenschutzbedenken
+-->
+
+---
+
 # <ph-fingerprint/> Browser-Fingerprinting
 
 ## Mitigation
@@ -77,5 +106,54 @@
   - Dynamische Analyse: Erkennung von Scripte mit Obfuscation, Minimierung, und Enumeration
 
   - Trainieren zwei separater Modelle, Kombination der Ergebnisse
+
+---
+
+# <ph-magnifying-glass/> FP-INSPECTOR
+
+## Vorarbeit: Heuristik
+
+- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von FP-Scripte
+
+- Kriterien für Erkennung von Canvas Font Fingerprinting:
+
+  - Script setzt `CanvasRenderingContext2D.font` mindestens 50 mal auf gültige Werte
+  - Script ruft `CanvasRenderingContext2D.measureText(...)` mindestens 50 mal mit dem selben String auf
+
+- Nach manueller Untersuchung der Erkannten Scripte wurden bei 1 Millionen Seiten kein False Positive gefunden.
+
+<!-- prettier-ignore-start -->
+<!--  -->
+---
+layout: two-cols
+---
+<!-- prettier-ignore-end -->
+
+# <ph-magnifying-glass/> FP-INSPECTOR
+
+## Vorarbeit: OpenWPM
+
+- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Framework zur automatisierten Messung von Web Privacy
+
+  - Geeignet zur Messung von stateful und stateless Tracking
+
+  - Entwickelt in Python
+
+  - Wurde bereits in vielen Studien genutzt
+
+::right::
+
+![OpenWPM Aufbau: "Figure 1: High-level overview of OpenWPM The task manager monitors browser managers, which convert high-level commands into automated browser actions. The data aggregator receives and pre-processes data from instrumentation."](/OpenWPM.png)
+[Online Tracking: A 1-million-site Measurement and Analysis](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
+
+<!--
+3 Hauptmodule
+
+- Browser Managers als Abstraktionsebene für einzelne Browserinstanzen
+  - kommunizieren mittels Selenium mit echtem Firefox, wichtig damit Fingerprinting wie gewollt funktioniert
+- Task Manager, user-facing um Kommandos an Browser zu senden
+   - Nutzer interagieren mittels Domänen spezifische Sprache um z.B. zu Crawlen oder Browser Instanzen zu steuern
+- Data Aggregator als Abstraktionsebene für Browserinstrumentation bzw. zur Datenextraktion
+-->
 
 ---
