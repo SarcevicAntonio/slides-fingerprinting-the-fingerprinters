@@ -30,12 +30,6 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - <ph-magnifying-glass/> FP-INSPECTOR
 
-  - Design
-
-  - Evaluation
-
-  - Limitationen
-
 - <ph-user-focus/> Fingerprinting der Top-100k
 
 - <ph-hand-eye/> Analyse der für Fingerprinting missbrauchten APIs
