@@ -10,9 +10,11 @@ title: "Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verh
 
 ## Browser-Fingerprinting-Verhalten lernen und erkennen
 
-Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
+Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22
 
-<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learning to detect browser fingerprinting behaviors” , 2020.</a>
+<img class="mt-4" src="/fh.svg" alt="FH Münster Logo">
+
+<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">src: U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learning to detect browser fingerprinting behaviors” , 2020.</a>
 
 <!-- prettier-ignore-start -->
 <!--  -->
@@ -48,19 +50,19 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 - Form von stateless tracking
 
-- **Missbrauchen** von JavaScript APIs und HTTP header um Geräte eindeutig zu identifizieren
+- **Missbrauchen** von JavaScript APIs und HTTP Header um Geräte zu identifizieren
 
   - z.B. `Canvas` und `User-Agent`
 
-- Aufdringlicher als z.B. Cookies da
+- Aufdringlicher als Cookies da:
 
   1. undurchsichtig
 
   2. fehlende Kontrolle
 
-- Fingerprinting für
+- Fingerprinting wird eingesetzt für:
 
-  - bot-detection (Google reCAPTCHA)
+  - Bot-Detection (Google reCAPTCHA)
 
   - Cookies regenerieren oder synchronisieren
 
@@ -87,18 +89,29 @@ image: https://images.pexels.com/photos/8382611/pexels-photo-8382611.jpeg
 
 ## Beispiel: Canvas Font Fingerprinting
 
-```js
-fonts = ["monospace", ..., "sans-serif"]; // Einen Haufen valider "Font" Werte
+```js{all|1|3-6|8-12|all}
+fonts = ["monospace", /* ... */, "sans-serif"];
+
 canvasElement = document.createElement("canvas");
 canvasElement.width = "100";
 canvasElement.height = "100";
 canvasContext = canvasElement.getContext("2d");
+
 fpDict = {};
 for (i = 0; i < fonts.length; i++) {
   canvasContext.font = "16px " + fonts[i];
   fpDict[fonts[i]] = canvasContext.measureText("example").width;
 }
 ```
+
+<v-click>
+
+```js
+❯ fpDict
+« {"monospace":61.578125,"Comic Sans MS":60.53125,"Arial":60.4765625,"sans-serif":60.4765625}
+```
+
+</v-click>
 
 <!--
 - Ein Beispiel für Vielzahl von Fingerprinting Möglichkeiten
@@ -119,13 +132,13 @@ for (i = 0; i < fonts.length; i++) {
 
 - [Laperdrix et al.](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7546540) ([AmIUnique](https://amiunique.org/)) und [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) ([Panopticlick](http://panopticlick.eff.org/)): 83% - 90% der Geräte eindeutigen Fingerprint (biased)
 
-- [Broix et al.](https://hal.inria.fr/hal-01718234v2/document) auf der Seite eines französischen Verlags: nur 33.6% Geräte mit eindeutigem Fingerprint (Mehr Daten für mehr uniqueness benötigt)
+- [Broix et al.](https://hal.inria.fr/hal-01718234v2/document) auf Seite eines französischen Verlags: 33.6% Geräte mit eindeutigem Fingerprint (mehr Daten für mehr uniqueness benötigt)
 
-- Stabile / verknüpfbare Fingerprints für Tracking benötigt:
+- [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1) ([Panopticlick](http://panopticlick.eff.org/)): 37% wiederkehrende Besucher mehr als einen Fingerprint
 
-  - [Eckersley](https://link.springer.com/chapter/10.1007/978-3-642-14527-8_1): 37% der wiederkehrende Besucher mehr als einen Fingerprint, aber 65% der Geräte konnten über einfache heuristische Verknüpfung re-identifiziert werden
+  - 65% der Geräte über einfache heuristische Verknüpfung re-identifiziert
 
-  - [Vastel et al.](https://hal.inria.fr/hal-01652021/document#:~:text=FP%2DSTALKER%20is%20an%20approach,machine%20learning%20to%20boost%20accuracy.) verbesserten 2017 diese Heuristik und konnten auf AmIUnique Besucher im Schnitt 74 Tage verfolgen
+  - [Vastel et al.](https://hal.inria.fr/hal-01652021/document#:~:text=FP%2DSTALKER%20is%20an%20approach,machine%20learning%20to%20boost%20accuracy.) ([AmIUnique](https://amiunique.org/)) verbesserten Heuristik: mögliche Verfolgung von Besuchern für Ø 74 Tage
 
 <!--
 
@@ -134,6 +147,8 @@ for (i = 0; i < fonts.length; i++) {
 - AmIUnique und Panopticlick: primär von technisch Interessierten Personen genutzt, daher sind die Zahlen biased
 
 - Broix: nur limitiertes Fingerprinting (IP, Content Language, Timezone header für mehr uniqueness)
+
+- Eckersley: Stabile / verknüpfbare Fingerprints für Tracking benötigt:
 
 -->
 
@@ -153,9 +168,9 @@ for (i = 0; i < fonts.length; i++) {
 
   - 404 FP-Seiten aus Alexa Top-1 Millionen **(0.04%)**
 
-- Weitere Studien [[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf), [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf) finden immer mehr FP-Seiten über die Jahre.
+- Weitere Studien [[37]](https://dl.acm.org/doi/10.1145/2660267.2660347), [[47]](https://www.esat.kuleuven.be/cosic/publications/article-3078.pdf), [[54]](https://arxiv.org/pdf/1812.01514.pdf), [[78]](https://petsymposium.org/2017/papers/hotpets/batterystatus-not-included.pdf) finden vermehrt FP-Seiten über die Jahre
 
-- 2019 schreibt [Washington Post](https://www.washingtonpost.com/technology/2019/10/31/think-youre-anonymous-online-third-popular-websites-are-fingerprinting-you/): "At least a third of the 500 sites Americans visit most often use hidden code to run an identity check on your computer or phone." **(>30%)**
+- 2019 schreibt [Washington Post](https://www.washingtonpost.com/technology/2019/10/31/think-youre-anonymous-online-third-popular-websites-are-fingerprinting-you/): "At least a third of the [top] 500 sites [...] use hidden [fingerprinting] code."
 
 <!--
 - Weitere Studien: Studien verwenden alle verschiedene Strategien um auf fingerprinting zu prüfen, dennoch lässt sich ein Trend erkennen
@@ -169,20 +184,6 @@ for (i = 0; i < fonts.length; i++) {
 - Machine Learning Ansatz zur Erkennung von FP
 - statische + dynamische JavaScript Analyse für Feature-Extraktion
 - Maßnahmen gegen Browser-Fingerprinting zur Mitigation
-
-## Design
-
-- Erkennungskomponente
-
-  - extrahieren von syntaktischen und semantischen Features
-
-  - trainieren von Classifier um FP-Scripte zu erkennen
-
-- Mitigationskomponente
-
-  - Reihe von Einschränkungen für erkannte Scripte ("layered approach")
-
-  - Wirkt gegen passives und/oder aktives Fingerprinting
 
 <!--
 - statische Analyse:
@@ -207,9 +208,16 @@ for (i = 0; i < fonts.length; i++) {
 
 <!--
 1. Crawling mit OpenWPM
+
 2. Vorarbeit für Erkennung (Daten extrahieren und glatt ziehen)
-3. Erkennungskomponente: Feature Extraktion und training
-4. Mitigationskomponente "layered approach"
+
+3. Erkennungskomponente
+    - extrahieren von syntaktischen und semantischen Features
+    - trainieren von Classifier um FP-Scripte zu erkennen
+
+4. Mitigationskomponente
+    - Reihe von Einschränkungen für erkannte Scripte ("layered approach")
+    - Wirkt gegen passives und/oder aktives Fingerprinting
 -->
 
 ---
@@ -218,7 +226,7 @@ for (i = 0; i < fonts.length; i++) {
 
 ## Design: Erkennung - Script Monitoring
 
-- [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten OpenWPM (Framework zur automatisierten Messung von Web Privacy)
+- [Englehardt und Narayanan [54]](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten OpenWPM (Framework zur automatisierten Messung von Web Privacy)
 
 - Crawlen mit OpenWPM: Sammeln von rohen Daten und execution traces für statische und dynamische Analyse
 
@@ -248,6 +256,8 @@ Erweiterungen nötig:
 - Script Unpacking
 
 - statische Feature Extraktion
+
+  - `parent:child` Paare
 
 - Überwachtes Lernen
 
@@ -333,10 +343,10 @@ Erweiterungen nötig:
 </div>
 
 <!--
-- wird zum aufbauen mit gelabelten Daten und features beladen
-  - im ersten Knoten hängen alle Daten
+- EBaum: wird zum aufbauen mit gelabelten Daten und features beladen
+  - in Wurzel hängen alle Daten
   - in jedem Knoten Feature auswählen, der Datenset möglichst effektiv teilt
-  - heißt am ende teilen in nicht fingerprinting und fingerprinting Blätter
+  - am ende teilen in nicht fingerprinting und fingerprinting Blätter
 
 - getrennte Bäume: -> Ergebnis wird verORt
 -->
@@ -349,7 +359,7 @@ Erweiterungen nötig:
 
 - Zur Evaluation werden gelabelte Beispiele von Non-FP-Scripte und FP-Scripte (ground truth) benötigt
 
-- Labeln von (Non-)FP-Scripte mit angepassten Heuristiken aus [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
+- Labeln von (Non-)FP-Scripte mit angepassten Heuristiken aus [Englehardt und Narayanan [54]](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313)
 
   - Heuristiken nie perfekt
 
@@ -369,11 +379,12 @@ Erweiterungen nötig:
 
 - Daher Entscheidung selber zu crawlen und Scripte zu labeln mit Heuristiken
 
-  - [Englehardt und Narayanan](https://dl.acm.org/doi/pdf/10.1145/2976749.2978313) entwickelten Heuristik zur Erkennung von FP-Scripte
+  - Vorarbeit von Englehardt und Narayanan: entwickelten Heuristik zur Erkennung von FP-Scripte
+     - z.B. Canvas Font FP: 50 Mal Font ändern und 50 Mal Measure Text mit gleichem String
 
   - Heuristiken wurden angepasst um weniger false positives aufzuweisen, wichtig für Ground Truth
 
-  - Heuristiken nicht perfekt: (schmaler grad)s
+  - Heuristiken nicht perfekt: (schmaler grad)
     - müssen spezifisch genug sein um keine false positives zu generieren
     - aber wenn zu spezifisch können FP-Scripte übersehen werden
     - müssen aktuell gehalten werden
@@ -434,7 +445,7 @@ _Tabelle_
 
 ![Genauigkeitstabelle: "TABLE II: FP-INSPECTOR’s classification results in terms of recall, precision, and accuracy in detecting fingerprinting scripts. “Heuristics (Scripts/Websites)” represents the number of scripts and websites detected by heuristics and “Classifiers (Scripts/Websites)” represents the number of scripts and websites detected by the classifiers. FPR represents false positive rate and FNR represent false negative rate."](/accuracy.png)
 
-- Kombination statischer und dynamischer Analyse Kombination durch "OR" Verknüpfung
+- Kombination statischer und dynamischer Analyse hat sich gelohnt:
   - 94,46% der Scripte die nur durch statische Analyse erkannt wurden waren ruhend
   - 92,30% der Scripte die nur durch dynamische Analyse erkannt wurden waren obfuscated / stark minified
 - Classifier erkennt 26% mehr Scripte als pure Heuristiken
@@ -461,7 +472,7 @@ layout: two-cols
 
 <v-click>
 
-- FP-Inspector Mitigation-Modi:
+- FP-Inspector Mitigations-Modi:
   1. pauschale API Restriction
   2. gezielte API Restriction
   3. Request Blocking
@@ -497,13 +508,11 @@ FP Inspector bietet 4 Modis zur Mitigation per Browsererweiterung an:
 
 - Manuelles Testen
 
-  - 50 zufälligen FP-Seiten + 11 Non-FP-Seiten (die unter derzeitigen Anti-FP Methoden von Firefox brechen)
+  - 50 zufälligen FP-Seiten + 11 Non-FP-Seiten (die unter damaligen Anti-FP Methoden von Firefox brechen)
 
-  - Ausschalten der derzeitigen Anti-FP Methoden von Firefox
+  - Ausschalten der damaligen Anti-FP Methoden von Firefox
 
-  - Jeweils Testen der Seite im vanilla Firefox, dann mit Erweiterung in jedem Modi
-
-  - Einteilen in jeweils "Major", "Minor" oder "None" Breakage
+  - Testen der Seiten, jeweils im vanilla Firefox und mit jedem Mitigations-Modi
 
 <img
   v-click
@@ -514,12 +523,6 @@ FP Inspector bietet 4 Modis zur Mitigation per Browsererweiterung an:
 
 <!--
 - Jeweils ein paar Minuten benutzen, Rum Scrollen, offensichtliche Funktionalität auschecken
-
-- Major: Hauptfunktionalität gestört (Login)
-
-- Minor Nebenfunktionalität gestört (Kommentare)
-
-- None: Haupt und Nebenfunktionalität nicht gestört
 
 - breakage wurde von zwei reviewers untersucht um bias zu verhindern
 
@@ -578,13 +581,24 @@ Insgesamt: Reduktion von Breakage um Faktor 2 bei anfälligen Seiten
 - Crawlen der Alexa top-100k Seiten mit FP-Inspect Erkennungskomponente
 - FP häufiger auf populären Seiten
 - Mehr FP als man in vorherigen Studien beobachtet hat
-- Mehr als ein Viertel der Top-Websites nehmen Fingerabdrücke von Nutzern
 - auch weniger populäre Seiten zeigen mehr FP auf
 - overall 10,18% der top-100k verwendet FP Scripte
 - Möglichkeiten für Funde:
   - Erkennung ist weitreichender als bei vorherigen Studien und/oder
   - Fingerprinting hat deutlich zugenommen
 
+-->
+
+---
+
+# <ph-user-focus/> Fingerprinting der Top-100k Seiten
+
+<h2>Fingerprinting ist auf <span class="spoiler">Nachrichten</span>seiten am häufigsten zu finden</h2>
+
+<img alt="'Fig. 4: The deployment of fingerprinting scripts across different categories of websites.'" src="/wild-news.png" style="height:70%;margin:auto;" class="spoiler"/>
+
+<!--
+# Quizrunde: Auf welcher Kategorie von Webseiten ist FP am häufigsten zu finden?
 -->
 
 ---
@@ -612,10 +626,17 @@ Insgesamt: Reduktion von Breakage um Faktor 2 bei anfälligen Seiten
 
 ## Fingerprinting wird zur Bekämpfung von Anzeigenbetrug eingesetzt, aber auch für potenzielles Cross-Site-Tracking
 
+- Third Party FP Anbieter:
+
+  - 3,78% Tracking Dienste
+
+  - 17,28% betreiben Cookie Syncing
+
 <img
   src="/wild-vendors.png"
   alt="'TABLE V: The presence of the top vendors classified as fingerprinting on Alexa top-100K websites. Tracker column shows whether the vendor is a cross-site tracker according to Disconnect’s tracking protection list. Y represents yes and N represents no.'"
-  style="height:70%;margin:auto"
+  style="height:50%"
+  class="hover-right"
 />
 
 <!--
@@ -628,7 +649,6 @@ Insgesamt: Reduktion von Breakage um Faktor 2 bei anfälligen Seiten
 
 - FP-Anbieter teilen auch Daten
   - Abgleich der FP-Anbieter mit Tracking Protection Liste von Disconnect:
-    - Disconnect Liste mit manuellem review: als Tracker gilt jemand der Personenbezogene Daten Teilt (FP nicht Personenbezogen?)
     - _nur_ 3,78% der FP-Anbieter sind explizite Tracking Dienste laut Disconnect
 
 - Cookie syncing: nutzen von FPs um Cookies (und damit Nutzerdaten) zu verknüpfen
@@ -652,8 +672,6 @@ Insgesamt: Reduktion von Breakage um Faktor 2 bei anfälligen Seiten
 />
 
 <!--
-- ernste Bedenken wie neue und vorhandene JS APIs für FS in unerwarteten wegen missbraucht werden können
-
 - Analyse der Verteilung von JS APIs in FP- und Non-FP-Scripte
   - Extraktion von JS API Keywords aus gesammeltem Source Code und sortieren nach Verhältnis des Vorkommens in FP- und Non-FP-Scripte
   - höheres Verhältnis bedeutet API wird häufiger in FP-Scripte benutzt
@@ -661,10 +679,8 @@ Insgesamt: Reduktion von Breakage um Faktor 2 bei anfälligen Seiten
 
 Tabelle
 
-- zu viel zur manuellen Analyse: einteilen in Cluster über einen gewichteten Graphen der gleichzeitiges Auftreten widerspiegelt
-  - da FP-Scripte oft mehrere FP Techniken gleichzeitig verwenden hofft man auf deutlichen FP Cluster
-  - hoch konzentrierte Cluster neigen dazu zu FP-Scripte zu gehören
-  - Nutzung weiter JS APIs für Fingerprinting entdeckt
+- einteilen in Cluster die gleichzeitiges Auftreten widerspiegelt
+  - Nutzung neuer JS APIs für Fingerprinting entdeckt
 -->
 
 ---
@@ -755,8 +771,9 @@ background: https://images.pexels.com/photos/8382599/pexels-photo-8382599.jpeg
 
 # Vielen Dank für Ihre Aufmerksamkeit
 
-## Die Fingerabdrücke der Fingerabdrucknehmer: Browser-Fingerprinting-Verhalten lernen und erkennen
+<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf">src: U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learningto detect browser fingerprinting behaviors” , 2020.</a>
 
-Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22 - FH Münster
+Vorgetragen von Antonio Sarcevic - Hackerpraktikum - WS 2021/22
 
-<a href="https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf" class="footer">U. Iqbal, S. Englehardt, and Z. Shafiq, “Fingerprinting the fingerprinters: Learningto detect browser fingerprinting behaviors” , 2020.</a>
+<img class="mt-4" src="/fh.svg" alt="FH Münster Logo">
+

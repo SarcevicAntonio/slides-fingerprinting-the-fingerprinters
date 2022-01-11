@@ -62,3 +62,7 @@
   display: flex;
   justify-content: end;
 }
+
+.spoiler {
+  filter: blur(15px);
+}
