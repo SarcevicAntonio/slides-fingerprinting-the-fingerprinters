@@ -1,11 +1,3 @@
-# Welcome to [Slidev](https://github.com/slidevjs/slidev)!
+Slides to go with a presentation I held on the Paper ["Fingerprinting the Fingerprinters: Learning to Detect Browser Fingerprinting Behaviors"](https://web.cs.ucdavis.edu/~zubair/files/fpinspector-sp2021.pdf) for an IT Securty Class.
 
-To start the slide show:
-
-- `npm install`
-- `npm run dev`
-- visit http://localhost:3030
-
-Edit the [slides.md](./slides.md) to see the changes.
-
-Learn more about Slidev on [documentations](https://sli.dev/).
+Made with [Slidev](https://sli.dev/).
